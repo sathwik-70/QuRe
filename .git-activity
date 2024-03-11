@@ -4,3 +4,4 @@ Activity on 2024-03-05T19:13:35 - fix: correct alignment in header
 Activity on 2024-03-06T21:52:32 - style: format tsx files
 Activity on 2024-03-07T01:08:32 - style: run prettier
 Activity on 2024-03-11T10:37:32 - fix: correct alignment in header
+Activity on 2024-03-12T04:45:52 - feat: add error boundary hooks
