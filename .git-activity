@@ -35,3 +35,4 @@ Activity on 2024-07-21T10:08:26 - fix: correct alignment in header
 Activity on 2024-07-21T20:39:23 - chore: optimize svg assets
 Activity on 2024-07-25T20:29:36 - test: add dashboard unit tests
 Activity on 2024-07-27T02:10:15 - ci: update github actions
+Activity on 2024-07-27T06:43:46 - chore: clean up unused variables
