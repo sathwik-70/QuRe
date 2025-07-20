@@ -134,3 +134,4 @@ Activity on 2025-07-02T11:36:39 - refactor: extract common types
 Activity on 2025-07-07T07:23:52 - refactor: extract common types
 Activity on 2025-07-11T21:03:49 - fix: resolve styling issue on mobile
 Activity on 2025-07-13T12:58:06 - fix: resolve styling issue on mobile
+Activity on 2025-07-20T18:10:55 - test: add dashboard unit tests
