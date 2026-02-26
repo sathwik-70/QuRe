@@ -1,5 +1,7 @@
 # QuRe: Sovereign Health Identity
 
+**🌍 Live Preview:** [https://qure.netlify.app](https://qure.netlify.app)
+
 QuRe is a next-generation decentralized health data platform. It flips the traditional siloed medical model by putting the patient at the center of the network. QuRe empowers patients with absolute sovereignty over their medical records while providing healthcare professionals with secure, frictionless access via dynamic QR handshakes. 
 
 Powered by **Google Gemini 3.1 Pro**, QuRe also features an intelligent Health Concierge to help patients understand their medical history.
