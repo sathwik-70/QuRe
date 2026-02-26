@@ -1,0 +1,6 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "GEMINI_API_KEY,VITE_SUPABASE_ANON_KEY,VITE_SUPABASE_URL"
