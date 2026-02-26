@@ -1,7 +1,0 @@
-{
-  "name": "QuRe: Sovereign Health Identity",
-  "description": "Decentralized patient data platform with secure QR handshakes and Gemini AI analysis.",
-  "requestFramePermissions": [
-    "camera"
-  ]
-}
