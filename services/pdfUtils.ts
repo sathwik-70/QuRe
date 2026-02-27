@@ -6,16 +6,8 @@ export const convertToPdf = async (file: File): Promise<File> => {
     return file;
   }
 
-  // Robust initialization for jsPDF from ESM CDN
-  // Some ESM builds export default, others named. 
-  // This ensures we get the class constructor.
-  const JsPDFClass = jsPDF || (window as any).jspdf?.jsPDF || (window as any).jsPDF;
-
-  if (!JsPDFClass) {
-     throw new Error("PDF Engine failed to load.");
-  }
-
-  const doc = new JsPDFClass();
+  // Use the standard ES module import
+  const doc = new jsPDF();
   const width = doc.internal.pageSize.getWidth();
   const height = doc.internal.pageSize.getHeight();
 
@@ -23,7 +15,7 @@ export const convertToPdf = async (file: File): Promise<File> => {
     if (file.type.startsWith('image/')) {
       const imgData = await readFileAsDataURL(file);
       const imgProps = doc.getImageProperties(imgData);
-      
+
       // Calculate aspect ratio to fit page
       const ratio = imgProps.width / imgProps.height;
       let w = width - 20; // 10px margin
@@ -34,27 +26,32 @@ export const convertToPdf = async (file: File): Promise<File> => {
         w = h * ratio;
       }
 
-      // Use FAST compression to speed up client-side generation
-      doc.addImage(imgData, 'JPEG', 10, 10, w, h, undefined, 'FAST');
-    } else if (file.type === 'text/plain') {
+      const format = file.type === 'image/png' ? 'PNG' : 'JPEG';
+      doc.addImage(imgData, format, 10, 10, w, h, undefined, 'FAST');
+    } else {
+      // Best-effort conversion for text and other recognizable text-based formats
       const text = await readFileAsText(file);
       const splitText = doc.splitTextToSize(text, width - 20);
-      doc.text(splitText, 10, 10);
-    } else {
-      // Fallback for unsupported types: create a PDF with a note
-      doc.text(`File: ${file.name}`, 10, 20);
-      doc.text("Format conversion not fully supported for this file type.", 10, 30);
+
+      let yPosition = 10;
+      for (let i = 0; i < splitText.length; i++) {
+        if (yPosition > height - 20) {
+          doc.addPage();
+          yPosition = 10;
+        }
+        doc.text(splitText[i], 10, yPosition);
+        yPosition += 7; // approximate line height in points
+      }
     }
 
     const pdfBlob = doc.output('blob');
-    // Swap extension
     const newName = file.name.replace(/\.[^/.]+$/, "") + ".pdf";
     return new File([pdfBlob], newName, { type: 'application/pdf' });
 
-  } catch (e) {
+  } catch (e: any) {
     console.error("PDF Conversion Failed", e);
-    // If conversion fails, return original file to avoid data loss
-    return file;
+    // Explicitly fail so we do not upload a mismatched mimetype to the patient dashboard
+    throw new Error("Could not convert file to PDF. Please upload valid Image, Text, or PDF documents.");
   }
 };
 
