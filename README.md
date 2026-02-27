@@ -17,6 +17,56 @@ Traditional healthcare systems lock patient data across multiple disconnected pr
 
 ---
 
+## 🏗️ System Architecture
+
+QuRe employs a hybrid decentralized architecture, separating heavy encrypted storage from lightweight metadata and authentication layers.
+
+```mermaid
+graph TD
+    sublayer_Frontend[Frontend (React SPA)]
+    
+    sublayer_Patient[Patient User] -->|OAuth Login| sublayer_Frontend
+    sublayer_Provider[Hospital User] -->|Email/Pass Login| sublayer_Frontend
+    
+    sublayer_Frontend -->|Uploads PDF| sublayer_G_Drive[Google Drive (Sovereign Storage)]
+    sublayer_Frontend -->|QR Scan/Verification| sublayer_Supabase[Supabase Backend]
+    sublayer_Frontend -->|Medical AI Queries| sublayer_OpenRouter[OpenRouter AI / Gemini]
+    
+    sublayer_Supabase -->|Store Metadata| sublayer_DB[(PostgreSQL Database)]
+    sublayer_Supabase -->|Temporary Buffer| sublayer_Bucket[Supabase Storage]
+    
+    sublayer_Provider -.->|Transit Upload| sublayer_Bucket
+    sublayer_Bucket -.->|Sync script| sublayer_G_Drive
+    
+    classDef frontend fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:white;
+    classDef storage fill:#10b981,stroke:#047857,stroke-width:2px,color:white;
+    classDef backend fill:#8b5cf6,stroke:#6d28d9,stroke-width:2px,color:white;
+    classDef external fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:white;
+    
+    class sublayer_Frontend frontend;
+    class sublayer_G_Drive storage;
+    class sublayer_Supabase,sublayer_DB backend;
+    class sublayer_OpenRouter external;
+```
+
+---
+
+## 📸 Screenshots & Demo
+
+*(Add screenshots of your application here to make it recruiter-ready)*
+
+<details>
+<summary><b>Click to expand screenshots</b></summary>
+
+* **Landing / Authentication:** `[Add landing.png]`
+* **Patient Sovereign Vault:** `[Add patient_dashboard.png]`
+* **Clinical Node Interface:** `[Add hospital_dashboard.png]`
+* **AI Concierge:** `[Add ai_chat.png]`
+
+</details>
+
+---
+
 ## ✨ Features & Functionality
 
 ### 👤 Patient Portal (The Sovereign Vault)
@@ -67,6 +117,41 @@ The QuRe platform is built entirely as a high-performance, serverless Single Pag
 
 ---
 
+## 🗄️ Database Schema & Security
+
+QuRe relies on PostgreSQL with strict **Row Level Security (RLS)** to enforce zero-trust policies. No user can query the database for another user's records without an active cryptographic session.
+
+```sql
+-- Core Profiles
+Table: profiles
+- id (uuid, matched to auth.users)
+- email (text)
+- role (enum: PATIENT, HOSPITAL, ADMIN)
+- qr_identifier (text, dynamic hash)
+- is_verified (boolean)
+
+-- Medical Ledger (Metadata)
+Table: reports
+- id (uuid)
+- patient_id (uuid, foreign key)
+- title, category, mime_type
+- drive_file_id (text, pointer to sovereign storage)
+
+-- Immutable Audit
+Table: access_logs
+- id (uuid)
+- hospital_id (uuid)
+- patient_id (uuid)
+- accessed_at (timestamptz)
+```
+
+### 🔐 Remote Procedure Calls (RPC)
+The application utilizes secure RPCs to handle sensitive transactions entirely on the backend:
+* `resolve_patient_qr`: Verifies a hospital's scanned QR code and returns a temporary session token.
+* `create_clinical_report`: Allows a hospital to inject a new record into a patient's pending queue.
+
+---
+
 ## 🚀 Local Development Setup
 
 ### Prerequisites
@@ -102,7 +187,7 @@ The application will be available at `http://localhost:5173`.
 
 ## 🌍 Deployment (Netlify)
 
-This project is fully configured for seamless deployment to Netlify as a static frontend application.
+This project is fully configured for seamless deployment to Netlify as a static frontend application, utilizing CI/CD pipelines.
 
 1. **Build Configuration (`netlify.toml`):** The repository includes configuration to bypass Netlify's secret scanners. Because QuRe is fully decentralized, the Supabase and OpenRouter keys are safely compiled into the client bundle.
 2. **Environment Variables:** In your Netlify dashboard, provide:
@@ -110,6 +195,16 @@ This project is fully configured for seamless deployment to Netlify as a static 
    * `VITE_SUPABASE_ANON_KEY`
    * `OPENROUTER_API_KEY`
 3. **Routing:** The `public/_redirects` file is included to ensure that React Router handles SPA navigation without throwing 404 errors on refresh.
+
+---
+
+## 🔭 Future Scope
+
+QuRe is designed as a foundational protocol. Future iterations will include:
+* **Web3/Blockchain Integration:** Moving the metadata ledger from PostgreSQL to an L2 blockchain (e.g., Polygon) for absolute cryptographic immutability.
+* **Biometric Auth Integration:** Enhancing the QR handshake with WebAuthn or FaceID requirements.
+* **Emergency Override Protocol:** A time-locked mechanism for first-responders to access critical blood-type and allergy info without a QR handshake.
+* **Wearable Integrations:** Continuous injection of Apple Health/Google Fit vitals into the ledger.
 
 ---
 
