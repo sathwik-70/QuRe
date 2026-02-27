@@ -10,7 +10,6 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@google/genai": "^1.39.0",
     "@supabase/supabase-js": "^2.48.1",
     "jspdf": "^2.5.1",
     "jsqr": "^1.4.0",

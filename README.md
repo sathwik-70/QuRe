@@ -4,7 +4,7 @@
 
 QuRe is a next-generation decentralized health data platform. It flips the traditional siloed medical model by putting the patient at the center of the network. QuRe empowers patients with absolute sovereignty over their medical records while providing healthcare professionals with secure, frictionless access via dynamic QR handshakes. 
 
-Powered by **Google Gemini 3.1 Pro**, QuRe also features an intelligent Health Concierge to help patients understand their medical history.
+Powered by **OpenRouter API** (running Gemini 2.5 Pro or other advanced models), QuRe also features an intelligent Health Concierge to help patients understand their medical history.
 
 ---
 
@@ -22,7 +22,7 @@ Traditional healthcare systems lock patient data across multiple disconnected pr
 ### 👤 Patient Portal (The Sovereign Vault)
 * **Sovereign Storage Integration:** Medical records are standardized to PDF by the frontend and uploaded directly into the user's personal Google Drive (`QURE records` folder). QuRe only stores metadata.
 * **Dynamic Identity Key:** A secure, auto-refreshing QR code acts as the patient's universal health identifier. It rotates its timestamp signature every 30 seconds to prevent replay attacks.
-* **AI Health Concierge:** Powered by Google's Gemini API, the concierge analyzes the patient's existing medical ledger to answer health queries, summarize complex records, and provide clinical context, grounded with live Google Search.
+* **AI Health Concierge:** Powered by the OpenRouter API, the concierge analyzes the patient's existing medical ledger to answer health queries, summarize complex records, and provide clinical context.
 * **Unified Ledger Dashboard:** View all medical records, prescriptions, and imaging reports in one place.
 
 ### 🏥 Clinical Node (Provider Dashboard)
@@ -58,7 +58,7 @@ The QuRe platform is built entirely as a high-performance, serverless Single Pag
 * **Google Drive API:** The primary storage mechanism. Patients authenticate via Google OAuth, granting QuRe the exact scopes needed to save PDFs directly into their unified cloud drive.
 
 ### Artificial Intelligence
-* **Google Gemini API (`@google/genai`):** Powers the QuRe Health Concierge. The `gemini-3.1-pro-preview` model is fed a sanitized context of the patient's health ledger to provide conversational, medically-responsible insights grounded in modern search results.
+* **OpenRouter API:** Powers the QuRe Health Concierge using a multi-model proxy (e.g., `google/gemini-2.5-pro`). It reads a sanitized context of the patient's health ledger to provide conversational, medically-responsible insights.
 
 ### Core Utilities
 * **jsQR:** Real-time decoding of QR matrices from live video camera feeds.
@@ -73,7 +73,7 @@ The QuRe platform is built entirely as a high-performance, serverless Single Pag
 * Node.js (v18+ recommended)
 * npm or yarn
 * Supabase Project (URL & Anon Key)
-* Google Gemini API Key
+* OpenRouter API Key
 * Google Cloud Console Project (configured for Drive API & Google OAuth Client ID)
 
 ### 1. Clone & Install
@@ -89,7 +89,7 @@ Create a `.env` file in the root directory:
 ```env
 VITE_SUPABASE_URL=https://your-project-id.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
-GEMINI_API_KEY=your-gemini-api-key
+OPENROUTER_API_KEY=your-openrouter-api-key
 ```
 
 ### 3. Start Development Server
@@ -104,11 +104,11 @@ The application will be available at `http://localhost:5173`.
 
 This project is fully configured for seamless deployment to Netlify as a static frontend application.
 
-1. **Build Configuration (`netlify.toml`):** The repository includes configuration to bypass Netlify's secret scanners. Because QuRe is fully decentralized, the Supabase and Gemini keys are safely compiled into the client bundle.
+1. **Build Configuration (`netlify.toml`):** The repository includes configuration to bypass Netlify's secret scanners. Because QuRe is fully decentralized, the Supabase and OpenRouter keys are safely compiled into the client bundle.
 2. **Environment Variables:** In your Netlify dashboard, provide:
    * `VITE_SUPABASE_URL`
    * `VITE_SUPABASE_ANON_KEY`
-   * `GEMINI_API_KEY`
+   * `OPENROUTER_API_KEY`
 3. **Routing:** The `public/_redirects` file is included to ensure that React Router handles SPA navigation without throwing 404 errors on refresh.
 
 ---
@@ -118,4 +118,4 @@ This project is fully configured for seamless deployment to Netlify as a static 
 **QuRe is a technology demonstration.** The AI Concierge is designed for informational purposes only and does not constitute professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this application.
 
 ---
-*Built with React, Supabase, and Google Gemini.*
+*Built with React, Supabase, and OpenRouter.*

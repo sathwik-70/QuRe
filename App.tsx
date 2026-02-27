@@ -334,7 +334,11 @@ const App: React.FC = () => {
         {/* Patient Board */}
         <div id="patient-board" onClick={() => { setBoard('PATIENT'); setError(''); }} className={`glass-panel p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] cursor-pointer transition-all duration-500 transform ${board === 'PATIENT' ? 'md:scale-105 border-emerald-500/30 shadow-2xl bg-white/5' : 'md:scale-95 opacity-60 hover:opacity-80'}`}>
           <div className="mb-6 md:mb-8">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-emerald-400/30 via-teal-500/20 to-cyan-500/20 rounded-2xl flex items-center justify-center text-2xl md:text-3xl mb-4 border border-emerald-500/20 shadow-inner">👤</div>
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-emerald-400/30 via-teal-500/20 to-cyan-500/20 rounded-2xl flex items-center justify-center text-emerald-200 mb-4 border border-emerald-500/20 shadow-inner">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-8 md:h-8">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
+            </div>
             <h2 className="text-2xl md:text-3xl font-serif font-bold text-white mb-2">Patient Access</h2>
             <p className="text-emerald-200/60 text-xs md:text-sm leading-relaxed">Secure, sovereign health vault. Manage your records and identity keys.</p>
           </div>
@@ -355,7 +359,11 @@ const App: React.FC = () => {
         {/* Provider Board */}
         <div id="provider-board" onClick={() => { setBoard('PROVIDER'); setError(''); }} className={`glass-panel p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] cursor-pointer transition-all duration-500 transform ${board === 'PROVIDER' ? 'md:scale-105 border-blue-500/30 shadow-2xl bg-white/5' : 'md:scale-95 opacity-60 hover:opacity-80'}`}>
           <div className="mb-6 md:mb-8">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-blue-400/30 via-indigo-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center text-2xl md:text-3xl mb-4 border border-blue-500/20 shadow-inner">🏥</div>
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-blue-400/30 via-indigo-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center text-blue-200 mb-4 border border-blue-500/20 shadow-inner">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 md:w-8 md:h-8">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
+              </svg>
+            </div>
             <h2 className="text-2xl md:text-3xl font-serif font-bold text-white mb-2">Clinical Node</h2>
             <p className="text-blue-200/60 text-xs md:text-sm leading-relaxed">Authorized medical personnel only. Request access for new facilities.</p>
           </div>
