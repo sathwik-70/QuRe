@@ -9,20 +9,20 @@ export const ensureQuReFolder = async (token: string): Promise<string> => {
   if (cachedFolderId) return cachedFolderId;
 
   const query = encodeURIComponent(`name = '${FOLDER_NAME}' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`);
-  
+
   try {
     // 1. Check if folder exists
     const res = await fetch(`${DRIVE_API}?q=${query}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
-    
+
     if (!res.ok) {
-       const err = await res.json().catch(() => ({}));
-       throw new Error(err.error?.message || 'Failed to access Drive API');
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || 'Failed to access Drive API');
     }
-    
+
     const data = await res.json();
-    
+
     // Return existing folder if found
     if (data.files && data.files.length > 0) {
       cachedFolderId = data.files[0].id;
@@ -73,14 +73,14 @@ export const uploadFile = async (token: string, folderId: string, file: File): P
 
   const metadata = { name: file.name, parents: [targetFolderId], mimeType: file.type };
   const boundary = 'b_o_u_n_d_a_r_y';
-  
+
   const reader = new FileReader();
   return new Promise((resolve, reject) => {
     reader.onload = async () => {
       const base64 = (reader.result as string).split(',')[1];
-      
+
       // Strict Multipart Body formatting
-      const body = 
+      const body =
         `--${boundary}\r\n` +
         `Content-Type: application/json; charset=UTF-8\r\n\r\n` +
         `${JSON.stringify(metadata)}\r\n` +
@@ -99,8 +99,21 @@ export const uploadFile = async (token: string, folderId: string, file: File): P
         body
       });
       const json = await res.json();
-      if (json.error) reject(json.error);
-      else resolve(json.id);
+      if (json.error) {
+        reject(json.error);
+      } else {
+        // Grant "anyone with link" reader permissions so hospitals can view the file
+        try {
+          await fetch(`${DRIVE_API}/${json.id}/permissions`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ role: 'reader', type: 'anyone' })
+          });
+        } catch (permError) {
+          console.error("Failed to set file permissions:", permError);
+        }
+        resolve(json.id);
+      }
     };
     reader.onerror = (e) => reject(e);
     reader.readAsDataURL(file);

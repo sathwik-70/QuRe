@@ -16,18 +16,26 @@ const RecordCard: React.FC<Props> = ({ record, canDownload = true }) => {
       if (record.storage_provider === 'SUPABASE') {
         const { data, error } = await supabase.storage.from('hospital_uploads').download(record.drive_file_id);
         if (error) throw error; blob = data as Blob;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = `${record.title}.${record.file_extension}`; a.click(); URL.revokeObjectURL(url);
       } else {
         const { data: { session } } = await supabase.auth.getSession();
-        if (!session?.provider_token) throw new Error("Auth Token Missing");
+        if (!session?.provider_token) {
+          // Hospital user: provider_token is missing. Open the Google Drive file directly.
+          window.open(`https://drive.google.com/file/d/${record.drive_file_id}/view`, '_blank');
+          setDownloading(false);
+          return;
+        }
+        // Patient user: Use raw download API.
         blob = await downloadFile(session.provider_token, record.drive_file_id);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = `${record.title}.${record.file_extension}`; a.click(); URL.revokeObjectURL(url);
       }
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = `${record.title}.${record.file_extension}`; a.click(); URL.revokeObjectURL(url);
     } catch (err) { console.error(err); alert("Download failed."); } finally { setDownloading(false); }
   };
 
   const getIcon = (cat: string) => {
-    switch(cat) { case 'Imaging': return '🩻'; case 'Prescription': return '💊'; case 'Lab Result': return '🩸'; case 'Vaccination': return '💉'; default: return '📄'; }
+    switch (cat) { case 'Imaging': return '🩻'; case 'Prescription': return '💊'; case 'Lab Result': return '🩸'; case 'Vaccination': return '💉'; default: return '📄'; }
   };
 
   const dateStr = new Date(record.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
