@@ -53,7 +53,11 @@ graph TD
 
 ## 📸 Screenshots & Demo
 
-*(Add screenshots of your application here to make it recruiter-ready)*
+Watch the QuRe Sovereign Health Node in action below, demonstrating the landing sequence and the Clinical Node interface:
+
+<div align="center">
+  <img src="./public/demo.webp" alt="QuRe Demo" width="100%" style="border-radius: 12px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);" />
+</div>
 
 <details>
 <summary><b>Click to expand screenshots</b></summary>
