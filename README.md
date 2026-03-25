@@ -59,6 +59,39 @@ Watch the QuRe Sovereign Health Node in action below, demonstrating the landing 
   <img src="./public/demo.webp" alt="QuRe Demo" width="100%" style="border-radius: 12px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);" />
 </div>
 
+---
+
+## 🔬 AI Concierge Pipeline
+
+QuRe leverages an advanced pipeline to synthesize and analyze medical records securely. The process ensures that raw data is transformed into actionable intelligence without compromising sovereignty.
+
+1. **Document Ingestion:** Patients or Clinical Nodes upload medical files (e.g., physiological reports, lab results, imaging like Brain CTs and Kidney MRIs).
+2. **Client-Side Standardization:** Before any data leaves the device, it is sanitized and formatted into a standardized PDF securely within the browser.
+3. **Sovereign Vault Storage:** Data is encrypted and uploaded directly to the patient's Google Drive. QuRe servers only retain the metadata pointer.
+4. **Context Window Generation:** When the patient queries the Health Concierge, the frontend dynamically pulls the relevant records from the vault, converts them into an optimized prompt, and opens a secure session with OpenRouter AI (Gemini 2.5 Pro).
+5. **Insights Delivery:** The AI Concierge streams clinically contextualized answers directly to the patient's interface.
+
+---
+
+## 📊 Pipeline Results & Capability
+
+QuRe's Health Concierge can synthesize complex imaging and reports. The platform supports diverse medical data analysis.
+
+Below are sample imaging records processed dynamically through the QuRe pipeline:
+
+<div align="center">
+  <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
+    <figure style="margin: 0;">
+      <img src="./brain%20ct.jpg" alt="Brain CT Architecture Processing" width="300" style="border-radius: 8px; box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);" />
+      <figcaption align="center"><i>Processed Brain CT Scan</i></figcaption>
+    </figure>
+    <figure style="margin: 0;">
+      <img src="./kidney%20mri.jpg" alt="Kidney MRI Architecture Processing" width="300" style="border-radius: 8px; box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);" />
+      <figcaption align="center"><i>Processed Kidney MRI</i></figcaption>
+    </figure>
+  </div>
+</div>
+
 <details>
 <summary><b>Click to expand screenshots</b></summary>
 
