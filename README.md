@@ -184,7 +184,11 @@ Below are sample imaging records processed dynamically through the QuRe pipeline
 
 ### 📸 Platform Interfaces
 
-Watch the complete **Live Platform Interaction Demo:** [🎥 Watch the QuRe System Demo (MP4)](./demo/qure_demo.mp4).
+Watch the complete **Live Platform Interaction Demo:**
+
+<video src="https://github.com/sathwik-70/QuRe/raw/main/demo/qure_demo.mp4" controls width="100%" style="max-width: 800px;"></video>
+
+<br/>
 
 **1. Landing & Authentic Flow**
 <img src="./demo/flippa_1.jpg" alt="Landing Details" width="100%" style="border-radius: 12px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4); margin-bottom: 24px;" />
