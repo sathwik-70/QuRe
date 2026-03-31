@@ -49,6 +49,96 @@ graph TD
     class sublayer_OpenRouter external;
 ```
 
+### 🧬 Domain Class Diagram
+
+```mermaid
+classDiagram
+    class UserProfile {
+      +string id
+      +string email
+      +string full_name
+      +UserRole role
+      +string qr_identifier
+      +boolean is_verified
+      +string drive_folder_id
+    }
+    class MedicalRecord {
+      +string id
+      +string patient_id
+      +string title
+      +string category
+      +string mime_type
+      +string drive_file_id
+      +string storage_provider
+    }
+    class AccessLog {
+      +string id
+      +string hospital_id
+      +string patient_id
+      +string hospital_name
+      +Date accessed_at
+    }
+
+    UserProfile "1" -- "*" MedicalRecord : Owns
+    UserProfile "1" -- "*" AccessLog : Monitored Via
+```
+
+### 🔐 QR Handshake Protocol (Sequence)
+
+```mermaid
+sequenceDiagram
+    participant P as Patient Platform
+    participant C as Clinical Node
+    participant S as Supabase (RPC Edge)
+    participant D as PostgreSQL Database
+
+    P->>P: Generate Dynamic `qr_identifier`
+    P-->>C: Present Physical QR Screen
+    C->>S: Scan QR -> Call `resolve_patient_qr(hash)`
+    S->>S: Role Auth (Check `HOSPITAL`)
+    S->>D: Match Hash to Profile User
+    D-->>S: Return Patient Info / NULL
+    alt Hash Valid
+        S->>D: Insert session Into `access_logs`
+        S-->>C: Success! (24hr Authorized Session)
+    else Hash Invalid or Expired
+        S-->>C: Access Denied
+    end
+```
+
+### 🗄️ Unified Entity Relationship Diagram (UML/DB)
+
+```mermaid
+erDiagram
+    PROFILES ||--o{ REPORTS : "stores"
+    PROFILES {
+        string id PK "uuid"
+        string email UK
+        string role "PATIENT/HOSPITAL/ADMIN"
+        string qr_identifier UK
+        boolean is_verified
+    }
+    REPORTS {
+        string id PK "uuid"
+        string patient_id FK "uuid"
+        string category
+        string drive_file_id
+    }
+    ACCESS_LOGS {
+        string id PK "uuid"
+        string hospital_id FK "uuid"
+        string patient_id FK "uuid"
+        datetime accessed_at
+    }
+    HOSPITAL_ALLOWLIST {
+        string email PK
+        string hospital_name
+        datetime created_at
+    }
+
+    PROFILES ||--o{ ACCESS_LOGS : "logs_sessions"
+```
+
 ---
 
 ## 📸 Screenshots & Demo
@@ -93,12 +183,20 @@ Below are sample imaging records processed dynamically through the QuRe pipeline
 </div>
 
 <details>
-<summary><b>Click to expand screenshots</b></summary>
+<summary><b>Click to expand Platform Screenshots</b></summary>
+<br>
 
-* **Landing / Authentication:** `[Add landing.png]`
-* **Patient Sovereign Vault:** `[Add patient_dashboard.png]`
-* **Clinical Node Interface:** `[Add hospital_dashboard.png]`
-* **AI Concierge:** `[Add ai_chat.png]`
+**1. Landing & Authentic Flow**
+<img src="./demo/flippa_1.jpg" alt="Landing Details" width="100%" />
+
+**2. Sovereign Unified Patient Vault**
+<img src="./demo/flippa_2.jpg" alt="Patient Vault Dashboard" width="100%" />
+
+**3. Clinical Hub Integration**
+<img src="./demo/flippa_3.jpg" alt="Clinical Node Dashboard" width="100%" />
+
+**Live Platform Interaction Demo:**
+[🎥 Watch the QuRe System Demo (MP4)](./demo/qure_demo.mp4)
 
 </details>
 
