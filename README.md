@@ -23,17 +23,17 @@ QuRe employs a hybrid decentralized architecture, separating heavy encrypted sto
 
 ```mermaid
 graph TD
-    sublayer_Frontend[Frontend (React SPA)]
+    sublayer_Frontend["Frontend (React SPA)"]
     
-    sublayer_Patient[Patient User] -->|OAuth Login| sublayer_Frontend
-    sublayer_Provider[Hospital User] -->|Email/Pass Login| sublayer_Frontend
+    sublayer_Patient["Patient User"] -->|OAuth Login| sublayer_Frontend
+    sublayer_Provider["Hospital User"] -->|Email/Pass Login| sublayer_Frontend
     
-    sublayer_Frontend -->|Uploads PDF| sublayer_G_Drive[Google Drive (Sovereign Storage)]
-    sublayer_Frontend -->|QR Scan/Verification| sublayer_Supabase[Supabase Backend]
-    sublayer_Frontend -->|Medical AI Queries| sublayer_OpenRouter[OpenRouter AI / Gemini]
+    sublayer_Frontend -->|Uploads PDF| sublayer_G_Drive["Google Drive (Sovereign Storage)"]
+    sublayer_Frontend -->|QR Scan/Verification| sublayer_Supabase["Supabase Backend"]
+    sublayer_Frontend -->|Medical AI Queries| sublayer_OpenRouter["OpenRouter AI / Gemini"]
     
-    sublayer_Supabase -->|Store Metadata| sublayer_DB[(PostgreSQL Database)]
-    sublayer_Supabase -->|Temporary Buffer| sublayer_Bucket[Supabase Storage]
+    sublayer_Supabase -->|Store Metadata| sublayer_DB[("PostgreSQL Database")]
+    sublayer_Supabase -->|Temporary Buffer| sublayer_Bucket["Supabase Storage"]
     
     sublayer_Provider -.->|Transit Upload| sublayer_Bucket
     sublayer_Bucket -.->|Sync script| sublayer_G_Drive
@@ -182,23 +182,18 @@ Below are sample imaging records processed dynamically through the QuRe pipeline
   </div>
 </div>
 
-<details>
-<summary><b>Click to expand Platform Screenshots</b></summary>
-<br>
+### 📸 Platform Interfaces
+
+Watch the complete **Live Platform Interaction Demo:** [🎥 Watch the QuRe System Demo (MP4)](./demo/qure_demo.mp4).
 
 **1. Landing & Authentic Flow**
-<img src="./demo/flippa_1.jpg" alt="Landing Details" width="100%" />
+<img src="./demo/flippa_1.jpg" alt="Landing Details" width="100%" style="border-radius: 12px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4); margin-bottom: 24px;" />
 
 **2. Sovereign Unified Patient Vault**
-<img src="./demo/flippa_2.jpg" alt="Patient Vault Dashboard" width="100%" />
+<img src="./demo/flippa_2.jpg" alt="Patient Vault Dashboard" width="100%" style="border-radius: 12px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4); margin-bottom: 24px;" />
 
 **3. Clinical Hub Integration**
-<img src="./demo/flippa_3.jpg" alt="Clinical Node Dashboard" width="100%" />
-
-**Live Platform Interaction Demo:**
-[🎥 Watch the QuRe System Demo (MP4)](./demo/qure_demo.mp4)
-
-</details>
+<img src="./demo/flippa_3.jpg" alt="Clinical Node Dashboard" width="100%" style="border-radius: 12px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);" />
 
 ---
 
